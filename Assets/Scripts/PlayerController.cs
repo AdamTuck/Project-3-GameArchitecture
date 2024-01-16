@@ -20,17 +20,28 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Shooting")]
     [SerializeField] private Rigidbody bulletPrefab;
+    [SerializeField] private Rigidbody rocketPrefab;
     [SerializeField] private float shootForce;
     [SerializeField] private Transform shootSpawnPoint;
 
+    [Header("Player Interactions")]
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float interactionDistance;
+    [SerializeField] private LayerMask interactionLayer;
+
+    // References
     private CharacterController characterController;
 
+    // Player Movement
     private float horizontal, vertical, mouseX, mouseY, camXRotation;
     private Vector3 playerVelocity;
-    [SerializeField] private bool isGrounded;
+    private bool isGrounded;
     private float moveMultiplier = 1;
 
-    // Start is called before the first frame update
+    // Raycasting
+    private RaycastHit raycastHit;
+    private ISelectable selectable;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -50,6 +61,9 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
 
         ShootBullet();
+        ShootRocket();
+
+        Interact();
     }
 
     void GetInput ()
@@ -94,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerJump ()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             playerVelocity.y = jumpVelocity;
         }
@@ -108,6 +122,43 @@ public class PlayerController : MonoBehaviour
             bullet.AddForce(shootSpawnPoint.forward * shootForce);
 
             Destroy(bullet.gameObject, 5.0f);
+        }
+    }
+
+    void ShootRocket()
+    {
+        if (Input.GetButtonDown("Fire2"))
+        {
+            Rigidbody rocket = Instantiate(rocketPrefab, shootSpawnPoint.position, shootSpawnPoint.rotation);
+            rocket.AddForce(shootSpawnPoint.forward * shootForce);
+
+            Destroy(rocket.gameObject, 5.0f);
+        }
+    }
+
+    void Interact ()
+    {
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+        if (Physics.Raycast(ray, out raycastHit, interactionDistance, interactionLayer))
+        {
+            selectable = raycastHit.transform.GetComponent<ISelectable>();
+
+            if (selectable != null)
+            {
+                selectable.OnHoverEnter();
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    selectable.OnSelect();
+                }
+            }
+        }
+
+        if (raycastHit.transform == null && selectable != null)
+        {
+            selectable.OnHoverExit();
+            selectable = null;
         }
     }
 }
