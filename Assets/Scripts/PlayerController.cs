@@ -29,6 +29,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float interactionDistance;
     [SerializeField] private LayerMask interactionLayer;
 
+    [Header("Pick And Drop")]
+    [SerializeField] private LayerMask pickupLayer;
+    [SerializeField] private float pickupDistance;
+    [SerializeField] private Transform attachTransform;
+
     // References
     private CharacterController characterController;
 
@@ -41,6 +46,10 @@ public class PlayerController : MonoBehaviour
     // Raycasting
     private RaycastHit raycastHit;
     private ISelectable selectable;
+
+    // Pick and Drop
+    private bool isHoldingObject = false;
+    private IPickable pickable;
 
     void Start()
     {
@@ -64,6 +73,7 @@ public class PlayerController : MonoBehaviour
         ShootRocket();
 
         Interact();
+        PickAndDrop();
     }
 
     void GetInput ()
@@ -159,6 +169,32 @@ public class PlayerController : MonoBehaviour
         {
             selectable.OnHoverExit();
             selectable = null;
+        }
+    }
+
+    void PickAndDrop ()
+    {
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+        if (Physics.Raycast(ray, out raycastHit, pickupDistance, pickupLayer))
+        {
+            if (Input.GetKeyDown(KeyCode.E) && !isHoldingObject)
+            {
+                pickable = raycastHit.transform.GetComponent<IPickable>();
+
+                if (pickable == null)
+                    return;
+
+                pickable.OnPicked(attachTransform);
+                isHoldingObject = true;
+                return;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && isHoldingObject && pickable != null)
+        {
+            pickable.OnDropped();
+            isHoldingObject = false;
         }
     }
 }

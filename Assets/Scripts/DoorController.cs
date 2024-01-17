@@ -8,12 +8,14 @@ public class DoorController : MonoBehaviour
     [SerializeField] private Material defaultDoorMaterial, detectedDoorMaterial;
     [SerializeField] private Animator doorAnimator;
 
+    private bool isLocked = true;
+
     //private float doorOpenDelayTimer = 0;
     //private const float doorOpenWaitTime = 1.0f;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (!isLocked && other.gameObject.CompareTag("Player"))
         {
             //doorOpenDelayTimer = 0;
             doorRenderer.material = detectedDoorMaterial;
@@ -22,16 +24,13 @@ public class DoorController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (isLocked)
+            return;
+
         if (!other.gameObject.CompareTag("Player"))
             return;
 
-        //doorOpenDelayTimer += Time.deltaTime;
-
-        //if (doorOpenDelayTimer >= doorOpenWaitTime)
-        //{
-            //doorOpenDelayTimer = doorOpenWaitTime;
-            doorAnimator.SetBool("Door", true);
-        //}
+        doorAnimator.SetBool("Door", true);
     }
 
     private void OnTriggerExit(Collider other)
@@ -39,8 +38,24 @@ public class DoorController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //doorOpenDelayTimer = 0;
-            doorRenderer.material = defaultDoorMaterial;
-            doorAnimator.SetBool("Door", false);
+            ShutDoor();
         }
+    }
+
+    private void ShutDoor()
+    {
+        doorRenderer.material = defaultDoorMaterial;
+        doorAnimator.SetBool("Door", false);
+    }
+
+    public void UnlockDoor ()
+    {
+        isLocked = false;
+    }
+
+    public void LockDoor ()
+    {
+        isLocked = true;
+        ShutDoor();
     }
 }
