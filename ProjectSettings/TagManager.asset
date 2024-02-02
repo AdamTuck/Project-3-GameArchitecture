@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - PickCube
+  - Ground
+  - Builder
   layers:
   - Default
   - TransparentFX
