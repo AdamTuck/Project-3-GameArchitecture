@@ -6,6 +6,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Health playerHealth;
+    [SerializeField] private GameObject cutsceneCanvas;
 
     public TMP_Text txtHealth;
     public GameObject gameOverText;
@@ -36,5 +37,15 @@ public class UIManager : MonoBehaviour
     void OnDeath ()
     {
         gameOverText.SetActive(true);
+    }
+
+    public void OnCutsceneBegin ()
+    {
+        cutsceneCanvas.SetActive(true);
+    }
+
+    public void OnCutsceneEnd ()
+    {
+        cutsceneCanvas.SetActive(false);
     }
 }

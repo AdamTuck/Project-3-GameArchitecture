@@ -101,4 +101,16 @@ public class PlayerInput : MonoBehaviour
 
         commandPressed = false;
     }
+
+    public void CutsceneStarted ()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void CutsceneEnded ()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 }

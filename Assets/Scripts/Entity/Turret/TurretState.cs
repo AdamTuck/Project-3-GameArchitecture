@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyState
+public abstract class TurretState
 {
-    protected EnemyController enemy;
+    protected Turret turret;
 
-    public EnemyState (EnemyController _enemy)
+    public TurretState(Turret _turret)
     {
-        this.enemy = _enemy;
+        this.turret = _turret;
     }
 
     public abstract void OnStateEnter();
