@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Health playerHealth;
+    [SerializeField] private UIManager UIManager;
+    [SerializeField] private GameObject player;
 
     [SerializeField] private LevelManager[] levels;
 
@@ -17,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    public enum GameState { Briefing, LevelStart, LevelIn, LevelEnd, GameOver, GameEnd }
+    public enum GameState { Briefing, LevelStart, LevelIn, LevelBetween, LevelEnd, GameOver, GameEnd }
 
     private void Awake()
     {
@@ -59,6 +61,9 @@ public class GameManager : MonoBehaviour
             case GameState.LevelEnd:
                 CompleteLevel();
                 break;
+            case GameState.LevelBetween:
+                BetweenLevels();
+                break;
             case GameState.GameOver:
                 GameOver();
                 break;
@@ -86,6 +91,12 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.LevelIn, currentLevel);
     }
 
+    private void BetweenLevels ()
+    {
+        Debug.Log("Between Levels: Hallway after " + currentLevel.gameObject.name);
+        currentLevel.BetweenLevels();
+    }
+
     private void RunLevel()
     {
         Debug.Log("Level In: " + currentLevel.gameObject.name);
@@ -93,7 +104,7 @@ public class GameManager : MonoBehaviour
 
     private void CompleteLevel ()
     {
-        Debug.Log("Level End");
+        Debug.Log("Level End: " + currentLevel.gameObject.name);
 
         ChangeState(GameState.LevelStart, levels[++currentLevelIndex]);
     }
@@ -106,6 +117,20 @@ public class GameManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public void RespawnAtCheckpoint ()
+    {
+        Time.timeScale = 1;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        playerHealth.RespawnPlayer();
+        UIManager.OnRespawnUI();
+
+        player.transform.position = new Vector3(currentLevel.CheckpointPos().position.x, currentLevel.CheckpointPos().position.y, currentLevel.CheckpointPos().position.z);
+        player.transform.rotation = Quaternion.Euler(new Vector3(currentLevel.CheckpointPos().eulerAngles.x, currentLevel.CheckpointPos().eulerAngles.y, currentLevel.CheckpointPos().eulerAngles.z));
     }
 
     private void GameEnd ()

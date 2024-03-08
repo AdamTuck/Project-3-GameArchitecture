@@ -50,7 +50,7 @@ public class EnemyAttackState : EnemyState
         //Debug.Log("Try Attacking... " + playerHealth.name);
         if (playerHealth)
         {
-            Debug.Log("Reducing health: " + damagePerSecond * Time.deltaTime);
+            //Debug.Log("Reducing health: " + damagePerSecond * Time.deltaTime);
             playerHealth.DeductHealth(damagePerSecond * Time.deltaTime);
         }
     }

@@ -39,6 +39,11 @@ public class UIManager : MonoBehaviour
         gameOverText.SetActive(true);
     }
 
+    public void OnRespawnUI ()
+    {
+        gameOverText.SetActive(false);
+    }
+
     public void OnCutsceneBegin ()
     {
         cutsceneCanvas.SetActive(true);

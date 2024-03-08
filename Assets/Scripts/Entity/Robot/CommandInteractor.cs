@@ -19,6 +19,7 @@ public class CommandInteractor : Interact
     {
         if (playerInput.commandPressed)
         {
+            Debug.Log("Commanding robot");
             Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
 
             if (Physics.Raycast(ray, out var hitInfo))
@@ -48,6 +49,8 @@ public class CommandInteractor : Interact
 
         if (commands.Count == 0)
             return;
+
+        Destroy(currentPointer);
 
         currentCommand = commands.Dequeue();
         currentPointer = pointerSpots.Dequeue();
