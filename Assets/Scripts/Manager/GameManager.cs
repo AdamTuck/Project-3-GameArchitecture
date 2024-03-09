@@ -61,9 +61,6 @@ public class GameManager : MonoBehaviour
             case GameState.LevelEnd:
                 CompleteLevel();
                 break;
-            case GameState.LevelBetween:
-                BetweenLevels();
-                break;
             case GameState.GameOver:
                 GameOver();
                 break;
@@ -89,12 +86,6 @@ public class GameManager : MonoBehaviour
 
         currentLevel.StartLevel();
         ChangeState(GameState.LevelIn, currentLevel);
-    }
-
-    private void BetweenLevels ()
-    {
-        Debug.Log("Between Levels: Hallway after " + currentLevel.gameObject.name);
-        currentLevel.BetweenLevels();
     }
 
     private void RunLevel()

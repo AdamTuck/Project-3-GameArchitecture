@@ -6,6 +6,7 @@ public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] private LevelManager endingLevel;
     [SerializeField] private DoorController entryDoor;
+    [SerializeField] private string levelTutorial;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,6 +22,11 @@ public class LevelTrigger : MonoBehaviour
             {
                 endingLevel.EndLevel();
                 Debug.Log("Trigger: Ending Level: " + endingLevel.gameObject.name);
+            }
+
+            if (levelTutorial != null && levelTutorial != "")
+            {
+                UIManager.instance.ShowTutorial(levelTutorial);
             }
             
             Destroy(gameObject);

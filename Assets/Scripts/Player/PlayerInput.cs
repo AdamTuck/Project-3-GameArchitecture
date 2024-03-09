@@ -21,6 +21,8 @@ public class PlayerInput : MonoBehaviour
 
     private bool clear;
 
+    private bool inputsAllowed;
+
     // Singleton
     private static PlayerInput instance;
 
@@ -55,25 +57,28 @@ public class PlayerInput : MonoBehaviour
 
     void SetInputs ()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        if (inputsAllowed)
+        {
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
 
-        mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
+            mouseX = Input.GetAxis("Mouse X");
+            mouseY = Input.GetAxis("Mouse Y");
 
-        sprint = sprint || Input.GetButton("Sprint");
-        jump = jump || Input.GetButtonDown("Jump");
-        interact = interact || Input.GetKeyDown(KeyCode.E);
+            sprint = sprint || Input.GetButton("Sprint");
+            jump = jump || Input.GetButtonDown("Jump");
+            interact = interact || Input.GetKeyDown(KeyCode.E);
 
-        leftBtn = leftBtn || Input.GetButtonDown("Fire1");
-        rightBtn = rightBtn || Input.GetButtonDown("Fire2");
+            leftBtn = leftBtn || Input.GetButtonDown("Fire1");
+            rightBtn = rightBtn || Input.GetButtonDown("Fire2");
 
-        escape = escape || Input.GetKeyDown(KeyCode.Escape);
+            escape = escape || Input.GetKeyDown(KeyCode.Escape);
 
-        weapon1Pressed = weapon1Pressed || Input.GetKeyDown(KeyCode.Alpha1);
-        weapon2Pressed = weapon2Pressed || Input.GetKeyDown(KeyCode.Alpha2);
+            weapon1Pressed = weapon1Pressed || Input.GetKeyDown(KeyCode.Alpha1);
+            weapon2Pressed = weapon2Pressed || Input.GetKeyDown(KeyCode.Alpha2);
 
-        commandPressed = commandPressed || Input.GetKeyDown(KeyCode.F);
+            commandPressed = commandPressed || Input.GetKeyDown(KeyCode.F);
+        }
     }
 
     void ClearInputs ()
@@ -106,11 +111,13 @@ public class PlayerInput : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        inputsAllowed = false;
     }
 
     public void CutsceneEnded ()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        inputsAllowed = true;
     }
 }

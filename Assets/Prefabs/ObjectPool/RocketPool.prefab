@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RocketPool
       objectReference: {fileID: 0}
+    - target: {fileID: 4981172638802340364, guid: 92c87dfe2a982264d9c7fba6e5be5fb5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6974005951588470593, guid: 92c87dfe2a982264d9c7fba6e5be5fb5,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

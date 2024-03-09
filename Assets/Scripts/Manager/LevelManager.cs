@@ -7,16 +7,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private bool isFinalLevel;
     [SerializeField] public Transform checkpointPos;
 
-    public UnityEvent onLevelStart, onLevelBetween, onLevelEnd;
+    public UnityEvent onLevelStart, onLevelEnd;
 
     public void StartLevel()
     {
         onLevelStart?.Invoke();
-    }
-
-    public void BetweenLevels()
-    {
-        onLevelBetween.Invoke();
     }
 
     public void EndLevel ()
