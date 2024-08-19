@@ -23,7 +23,8 @@ public class TurretIdleState : TurretState
     {
         turret.laserLine.SetPosition(0, turret.rayEmitter.transform.position);
 
-        if (Physics.Raycast(turret.rayEmitter.transform.position, turret.rayEmitter.transform.forward, out RaycastHit hit, turret.laserLineLength))
+        if (Physics.Raycast(turret.rayEmitter.transform.position, turret.rayEmitter.transform.forward, 
+            out RaycastHit hit, turret.laserLineLength))
         {
             turret.hitTarget = hit.transform;
             turret.ChangeState(new TurretAttackState(turret));

@@ -37,7 +37,6 @@ public class TurretAttackState : TurretState
 
             if (hit.transform.gameObject.CompareTag("Player"))
             {
-                //Debug.Log("Reducing health: " + damagePerSecond * Time.deltaTime);
                 playerHealth.DeductHealth(damagePerSecond * Time.deltaTime);
             }
         }

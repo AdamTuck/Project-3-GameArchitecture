@@ -8,8 +8,8 @@ public class Turret : MonoBehaviour
 
     [Header("Turret")]
     [SerializeField] public Transform rayEmitter;
-    [SerializeField] public float rotationAngle;
-    [SerializeField] public float viewRadius;
+    //[SerializeField] public float rotationAngle;
+    //[SerializeField] public float viewRadius;
 
     [Header("Laser Line")]
     [SerializeField] public LineRenderer laserLine;
@@ -31,35 +31,7 @@ public class Turret : MonoBehaviour
     void Update()
     {
         currentState.OnStateUpdate();
-        //FireLaser();
     }
-
-    //private void FireLaser ()
-    //{
-    //    laserLine.SetPosition(0, rayEmitter.transform.position);
-
-    //    if (Physics.Raycast(rayEmitter.transform.position, rayEmitter.transform.forward, out RaycastHit hit, laserLineLength))
-    //    {
-    //        laserLine.SetPosition(1, hit.point);
-
-    //        laserLine.startWidth = firingLineWidth;
-    //        laserLine.endWidth = firingLineWidth;
-
-    //        if (hit.transform.gameObject.CompareTag("Player"))
-    //        {
-    //            player = hit.transform;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        laserLine.SetPosition(1, rayEmitter.position + rayEmitter.forward * laserLineLength);
-
-    //        laserLine.startWidth = idleLineWidth;
-    //        laserLine.endWidth = idleLineWidth;
-
-    //        player = null;
-    //    }
-    //}
 
     public void ChangeState(TurretState state)
     {
